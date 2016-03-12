@@ -39,7 +39,9 @@ has ua => (
 
 has files => (is => 'lazy');
 sub _build_files {
-    return Google::Client::Files->new();
+    return Google::Client::Files->new(
+        access_token => $_[0]->access_token
+    );
 }
 
 =head2 hook: before request
