@@ -39,7 +39,7 @@ sub create {
     my $json = $self->_request(
         method => 'POST',
         url => $url,
-        content => $content
+        content => encode_json($content)
     );
     return $json;
 }
@@ -52,6 +52,110 @@ sub create_media {
 
     my $url = $self->_url('/upload/drive/v3/files', $params);
 
+    my $json = $self->_request(
+        method => 'POST',
+        url => $url,
+        content => encode_json($content)
+    );
+    return $json;
+}
+
+sub delete {
+    my ($self, $id) = @_;
+    Carp::confess("No ID provided") unless ($id);
+    my $url = $self->_url("/$id");
+    $self->_request(
+        method => 'DELETE',
+        url => $url
+    );
+    return 1;
+}
+
+sub empty_trash {
+    my ($self) = @_;
+    $self->_request(
+        method => 'DELETE',
+        url => $self->_url('/trash')
+    );
+    return 1;
+}
+
+sub export {
+    my ($self, $id, $params) = @_;
+    Carp::confess("No ID provided") unless ($id);
+    my $url = $self->_url("/$id/export", $params);
+    my $json = $self->_request(
+        method => 'GET',
+        url => $url
+    );
+    return $json;
+}
+
+sub generate_ids {
+    my ($self, $params) = @_;
+    my $url = $self->_url('/generateIds', $params);
+    my $json = $self->_request(
+        method => 'GET',
+        url => $url
+    );
+    return $json;
+}
+
+sub get {
+    my ($self, $id, $params) = @_;
+    Carp::confess("No ID provided") unless ($id);
+    my $url = $self->_url("/$id", $params);
+    my $json = $self->_request(
+        method => 'GET',
+        url => $url
+    );
+}
+
+sub list {
+    my ($self, $params) = @_;
+    my $url = $self->_url(undef, $params);
+    my $json = $self->_request(
+        method => 'GET',
+        url => $url
+    );
+    return $json;
+}
+
+sub update_media {
+    my ($self, $id, $params, $content) = @_;
+    Carp::confess("No ID provided") unless ($id);
+    unless ( $content && %$content ) {
+        Carp::confess("No content provided to update");
+    }
+    my $url = $self->_url("/upload/drive/v3/files/$id", $params);
+    my $json = $self->_request(
+        method => 'PATCH',
+        url => $url,
+        content => encode_json($content)
+    );
+    return $json;
+}
+
+sub update {
+    my ($self, $id, $params, $content) = @_;
+    Carp::confess("No ID provided") unless ($id);
+    unless ( $content && %$content ) {
+        Carp::confess("No content provided to update");
+    }
+    my $url = $self->_url("/$id", $params);
+    my $json = $self->_request(
+        method => 'PATCH',
+        url => $url,
+        content => encode_json($content)
+    );
+    return $json;
+}
+
+sub watch {
+    my ($self, $id, $params, $content) = @_;
+    Carp::confess("No ID provided") unless ($id);
+    my $url = $self->_url("/$id/watch", $params);
+    $content = $content ? encode_json($content) : undef;
     my $json = $self->_request(
         method => 'POST',
         url => $url,
