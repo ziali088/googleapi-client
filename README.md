@@ -26,3 +26,14 @@ Requests to Googles API require authentication, which this module handles via [G
 
 Hook that checks if an access token is available before
 making API requests. Will die with error if not found.
+
+## request(%req)
+
+Performs a request with the given parameters. These should be the same parameters
+accepted by [Furl::request](https://metacpan.org/pod/Furl). Returns the responses
+JSON.
+
+Will add an Authorization header with the access\_token attributes value to the request.
+
+Can die with an error if the response code was not a successful one, or if there was
+an error decoding the JSON data.

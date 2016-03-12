@@ -93,6 +93,19 @@ before request => sub {
     }
 };
 
+=head2 request(%req)
+
+Performs a request with the given parameters. These should be the same parameters
+accepted by L<Furl::request|https://metacpan.org/pod/Furl>. Returns the responses
+JSON.
+
+Will add an Authorization header with the access_token attributes value to the request.
+
+Can die with an error if the response code was not a successful one, or if there was
+an error decoding the JSON data.
+
+=cut
+
 sub request {
     my ($self, %req) = @_;
 
