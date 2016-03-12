@@ -95,13 +95,6 @@ sub _build_files {
     return GoogleAPI::Client::Files->new(%$args);
 }
 
-=head2 _common_args
-
-Convenience private method to streamline the initialisation of API clients.
-Shouldn't be used in client code.
-
-=cut
-
 sub _common_args {
     my $self = shift;
     my $args = $self->oauth_credentials;
@@ -109,7 +102,7 @@ sub _common_args {
     return $args;
 }
 
-=head2 before request
+=head2 hook: before request
 
 Hook that checks if an access token is available in the CHI
 before making any API request. Will attempt to refresh the

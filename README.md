@@ -24,12 +24,7 @@ Requests to Googles API require authentication, which this module handles via [G
 Before a request is made, a check is performed to see if we have a valid access token in a CHI::Driver. If we don't, the request will through an error.
 However, if the access type requested from Google is 'offline', a refresh token request will be made before the request to the resource and the new access token will be set.
 
-## \_common\_args
-
-Convenience private method to streamline the initialisation of API clients.
-Shouldn't be used in client code.
-
-## before request
+## hook: before request
 
 Hook that checks if an access token is available in the CHI
 before making any API request. Will attempt to refresh the
