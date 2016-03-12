@@ -1,22 +1,22 @@
-package GoogleAPI::Client;
-# ABSTRACT: Google API Client
+package Google::Client;
+# ABSTRACT: Google Client
 
 =head1 NAME
 
-GoogleAPI::Client
+Google::Client
 
 =head2 SYNOPSIS
 
-    use GoogleAPI::Client;
+    use Google::Client;
 
-    my $api_client = GoogleAPI::Client->new(
+    my $api_client = Google::Client->new(
         access_token => 'XXXXX'
     );
 
 =head2 DESCRIPTION
 
 A base client used to connect to the many resources of L<Googles REST API|https://developers.google.com/google-apps/products>.
-All subclasses can be found in CPAN under the 'GoogleAPI::Client' namespace (eg GoogleAPI::Client::File).
+All subclasses can be found in CPAN under the 'Google::Client' namespace (eg Google::Client::File).
 
 Requests to Googles API require authentication, which can be handled via L<Google::OAuth2::Client::Simple|thttps://metacpan.org/pod/Google::OAuth2::Client::Simple>.
 
@@ -28,7 +28,7 @@ use Furl;
 use Moo;
 
 # Available Google REST APIs
-use GoogleAPI::Client::Files;
+use Google::Client::Files;
 
 has access_token => (is => 'rw');
 
@@ -39,7 +39,7 @@ has ua => (
 
 has files => (is => 'lazy');
 sub _build_files {
-    return GoogleAPI::Client::Files->new();
+    return Google::Client::Files->new();
 }
 
 =head2 hook: before request

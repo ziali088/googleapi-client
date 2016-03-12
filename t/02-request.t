@@ -13,9 +13,9 @@ $Mock_furl_res->mock(
     decoded_content => sub { return '{}'; }
 );
 
-use GoogleAPI::Client;
+use Google::Client;
 
-ok my $client = GoogleAPI::Client->new(), 'created client ok';
+ok my $client = Google::Client->new(), 'created client ok';
 
 throws_ok { $client->request(
   method => 'GET',

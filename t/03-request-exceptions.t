@@ -3,9 +3,9 @@ use Test::Most;
 use Test::Mock::Furl;
 use Furl::Response;
 
-use GoogleAPI::Client;
+use Google::Client;
 
-ok my $client = GoogleAPI::Client->new(access_token => 'wefjwofjwiojfoaijfoafw'), 'created client ok';
+ok my $client = Google::Client->new(access_token => 'wefjwofjwiojfoaijfoafw'), 'created client ok';
 
 {
     $Mock_furl->mock(

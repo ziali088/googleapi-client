@@ -1,6 +1,6 @@
 use Test::More;
 
-use_ok('GoogleAPI::Client');
-use_ok('GoogleAPI::Client::Files');
+use_ok('Google::Client');
+use_ok('Google::Client::Files');
 
 done_testing;

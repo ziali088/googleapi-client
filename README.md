@@ -1,19 +1,19 @@
 # NAME
 
-GoogleAPI::Client
+Google::Client
 
 ## SYNOPSIS
 
-    use GoogleAPI::Client;
+    use Google::Client;
 
-    my $api_client = GoogleAPI::Client->new(
+    my $api_client = Google::Client->new(
         access_token => 'XXXXX'
     );
 
 ## DESCRIPTION
 
 A base client used to connect to the many resources of [Googles REST API](https://developers.google.com/google-apps/products).
-All subclasses can be found in CPAN under the 'GoogleAPI::Client' namespace (eg GoogleAPI::Client::File).
+All subclasses can be found in CPAN under the 'Google::Client' namespace (eg Google::Client::File).
 
 Requests to Googles API require authentication, which can be handled via [Google::OAuth2::Client::Simple](thttps://metacpan.org/pod/Google::OAuth2::Client::Simple).
 
