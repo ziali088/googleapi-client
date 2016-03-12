@@ -10,12 +10,7 @@ GoogleAPI::Client
     use GoogleAPI::Client;
 
     my $api_client = GoogleAPI::Client->new(
-        oauth_credentials => {
-            client_secret => 'xxxx',
-            client_id => 'xxxx',
-            redirect_uri => 'http://yourapp.com/oauth-callback-uri',
-        },
-        scopes => ['your', 'desired', 'scopes']
+        access_token => 'XXXXX'
     );
 
 =head2 DESCRIPTION
@@ -23,65 +18,39 @@ GoogleAPI::Client
 A base client used to connect to the many resources of L<Googles REST API|https://developers.google.com/google-apps/products>.
 All subclasses can be found in CPAN under the 'GoogleAPI::Client' namespace (eg GoogleAPI::Client::File).
 
-Requests to Googles API require authentication, which this module handles via L<Google::OAuth2::Client::Simple|thttps://metacpan.org/pod/Google::OAuth2::Client::Simple>.
+Requests to Googles API require authentication, which can be handled via L<Google::OAuth2::Client::Simple|thttps://metacpan.org/pod/Google::OAuth2::Client::Simple>.
 
 =cut
 
 use Carp;
 use Cpanel::JSON::XS;
 use Furl;
-use Google::OAuth2::Client::Simple;
 use Moo;
 
 # Available Google REST APIs
 use GoogleAPI::Client::Files;
+
+has access_token => (is => 'rw');
 
 has ua => (
     is => 'ro',
     default => sub { return Furl->new(); }
 );
 
-has access_token => (
-    is => 'rw'
-);
-
-has oauth_credentials => (
-    is => 'ro',
-    isa => sub { Carp::confess('oauth_credentials must be a hashref') unless ref($_[0]) eq 'HASH'; },
-    required => 1,
-);
-
-has scopes => (
-    is => 'ro',
-    isa => sub { Carp::confess('scopes must be an arrayref') unless ref($_[0]) eq 'ARRAY'; },
-    required => 1,
-);
-
-has oauth => (is => 'lazy');
-sub _build_oauth {
-    my $self = shift;
-    my $args = $self->_common_args;
-    return Google::OAuth2::Client::Simple->new(%$args, ua => $self->ua);
-}
-
 has files => (is => 'lazy');
 sub _build_files {
-    my $self = shift;
-    my $args = $self->_common_args;
-    return GoogleAPI::Client::Files->new(%$args);
-}
-
-sub _common_args {
-    my $self = shift;
-    my $args = $self->oauth_credentials;
-    $args->{scopes} = $self->scopes;
-    return $args;
+    return GoogleAPI::Client::Files->new();
 }
 
 =head2 hook: before request
 
 Hook that checks if an access token is available before
 making API requests. Will die with error if not found.
+
+It would be wise to store the access token in a cache
+which expires in the 'expires_in' seconds returned
+by Google with the token, that way you will know
+when to refresh it or request a new one.
 
 =cut
 

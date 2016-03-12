@@ -15,14 +15,7 @@ $Mock_furl_res->mock(
 
 use GoogleAPI::Client;
 
-ok my $client = GoogleAPI::Client->new(
-    oauth_credentials => {
-        client_id => 'client id',
-        client_secret => 'big secret',
-        redirect_uri => 'http://www.test.com/callback'
-    },
-    scopes => ['http://www.google.com/file-scope-uri']
-), 'created client ok';
+ok my $client = GoogleAPI::Client->new(), 'created client ok';
 
 throws_ok { $client->request(
   method => 'GET',
