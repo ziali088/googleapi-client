@@ -15,7 +15,7 @@ Google::Client
 A base client used to connect to the many resources of [Googles REST API](https://developers.google.com/google-apps/products).
 All subclasses can be found in CPAN under the 'Google::Client' namespace (eg Google::Client::File).
 
-Requests to Googles API require authentication, which can be handled via [Google::OAuth2::Client::Simple](thttps://metacpan.org/pod/Google::OAuth2::Client::Simple).
+Requests to Googles API require authentication, which can be handled via [Google::OAuth2::Client::Simple](https://metacpan.org/pod/Google::OAuth2::Client::Simple).
 
 ## hook: before request
 
