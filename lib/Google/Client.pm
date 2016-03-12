@@ -26,6 +26,7 @@ use Carp;
 use Cpanel::JSON::XS;
 use Furl;
 use Moo;
+use URI;
 
 # Available Google REST APIs
 use Google::Client::Files;
@@ -44,19 +45,15 @@ sub _build_files {
     );
 }
 
-=head2 hook: before request
+# Hook that checks if an access token is available before
+# making API requests. Will die with error if not found.
 
-Hook that checks if an access token is available before
-making API requests. Will die with error if not found.
+# It would be wise to store the access token in a cache
+# which expires in the 'expires_in' seconds returned
+# by Google with the token, that way you will know
+# when to refresh it or request a new one.
 
-It would be wise to store the access token in a cache
-which expires in the 'expires_in' seconds returned
-by Google with the token, that way you will know
-when to refresh it or request a new one.
-
-=cut
-
-before request => sub {
+before _request => sub {
     my $self = shift;
 
     unless ( $self->access_token ) {
@@ -64,20 +61,14 @@ before request => sub {
     }
 };
 
-=head2 request(%req)
+# Performs a request with the given parameters. These should be the same parameters
+# accepted by L<Furl::request|https://metacpan.org/pod/Furl>. Returns the responses
+# JSON.
+# Will add an Authorization header with the access_token attributes value to the request.
+# Can die with an error if the response code was not a successful one, or if there was
+# an error decoding the JSON data.
 
-Performs a request with the given parameters. These should be the same parameters
-accepted by L<Furl::request|https://metacpan.org/pod/Furl>. Returns the responses
-JSON.
-
-Will add an Authorization header with the access_token attributes value to the request.
-
-Can die with an error if the response code was not a successful one, or if there was
-an error decoding the JSON data.
-
-=cut
-
-sub request {
+sub _request {
     my ($self, %req) = @_;
 
     $req{headers} = ['Authorization', $self->access_token];
@@ -91,6 +82,15 @@ sub request {
     Carp::confess("Error decoding JSON: $@") if $@;
 
     return $json;
+}
+
+sub _url {
+    my ($self, $uri, $params) = @_;
+    my $url = URI->new($self->base_url . $uri);
+    if ( $params ) {
+        $url->query_form($params);
+    }
+    return $url->as_string;
 }
 
 1;

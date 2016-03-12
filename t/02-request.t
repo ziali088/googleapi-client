@@ -17,14 +17,14 @@ use Google::Client;
 
 ok my $client = Google::Client->new(), 'created client ok';
 
-throws_ok { $client->request(
+throws_ok { $client->_request(
   method => 'GET',
   url => 'http://www.googleapis.com/some/test/path'
 ) } qr|access token not found or may have expired|, 'dies when no access token';
 
 $client->access_token('weaifgqirgjqpe');
 
-lives_ok { $client->request(
+lives_ok { $client->_request(
     method => 'GET',
     url => 'http://www.googleapis.com/some/test/path',
 ) } 'lives when given access token and response is good';

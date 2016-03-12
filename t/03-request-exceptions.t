@@ -18,7 +18,7 @@ ok my $client = Google::Client->new(access_token => 'wefjwofjwiojfoaijfoafw'), '
         decoded_content => sub { return '<html><body>blah</body></html>'; }
     );
 
-    throws_ok { $client->request(
+    throws_ok { $client->_request(
       method => 'GET',
       url => 'http://www.googleapis.com/some/test/path'
     ) } qr|error decoding json|i, 'dies if response is not correct json';
@@ -35,7 +35,7 @@ ok my $client = Google::Client->new(access_token => 'wefjwofjwiojfoaijfoafw'), '
     $Mock_furl_res->mock(is_success => sub { return 0; });
     $Mock_furl_res->mock(as_string => sub { return "403 Forbidden"; });
 
-    throws_ok { $client->request(
+    throws_ok { $client->_request(
       method => 'GET',
       url => 'http://www.googleapis.com/some/test/path'
     ) } qr|google api request failed|i, 'dies if response is not successful';

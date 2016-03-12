@@ -5,7 +5,6 @@ extends 'Google::Client';
 
 use Carp;
 use Cpanel::JSON::XS;
-use URI;
 
 has base_url => (
     is => 'ro',
@@ -19,10 +18,41 @@ sub copy {
 
     $content = $content ? encode_json($content) : undef;
 
-    my $url = URI->new($self->base_url . '/' . $id . '/copy');
-    $url->query_form($params) if ($params);
+    my $url = $self->_url("/$id/copy", $params);
 
-    my $json = $self->request(
+    my $json = $self->_request(
+        method => 'POST',
+        url => $url,
+        content => $content
+    );
+    return $json;
+}
+
+sub create {
+    my ($self, $params, $content) = @_;
+    unless ( $content && %$content ) {
+        Carp::confess("No content provided to create a media upload");
+    }
+
+    my $url = $self->_url('/drive/v3/files', $params);
+
+    my $json = $self->_request(
+        method => 'POST',
+        url => $url,
+        content => $content
+    );
+    return $json;
+}
+
+sub create_media {
+    my ($self, $params, $content) = @_;
+    unless ( $content && %$content ) {
+        Carp::confess("No content provided to create a media upload");
+    }
+
+    my $url = $self->_url('/upload/drive/v3/files', $params);
+
+    my $json = $self->_request(
         method => 'POST',
         url => $url,
         content => $content
