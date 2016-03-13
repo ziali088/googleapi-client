@@ -72,7 +72,8 @@ before _request => sub {
 # JSON.
 # Will add an Authorization header with the access_token attributes value to the request.
 # Can die with an error if the response code was not a successful one, or if there was
-# an error decoding the JSON data.
+# an error decoding the JSON data. For requests that do not return any content, will
+# just return undef to indicate we have received no content.
 
 sub _request {
     my ($self, %req) = @_;
@@ -83,6 +84,8 @@ sub _request {
     unless ( $response->is_success ) {
         Carp::confess("Google API request failed: \n\n" . $response->as_string);
     }
+
+    return unless ( $response->decoded_content );
 
     my $json = eval { decode_json($response->decoded_content); };
     Carp::confess("Error decoding JSON: $@") if $@;
