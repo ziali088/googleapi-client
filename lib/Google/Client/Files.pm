@@ -5,7 +5,6 @@ extends 'Google::Client';
 
 use Carp;
 use Cpanel::JSON::XS;
-use Furl;
 
 has base_url => (
     is => 'ro',
@@ -13,11 +12,7 @@ has base_url => (
 );
 
 has access_token => (is => 'rw');
-
-has ua => (
-    is => 'ro',
-    default => sub { return Furl->new(); }
-);
+has ua => (is => 'ro');
 
 sub copy {
     my ($self, $id, $params, $content) = @_;
