@@ -5,10 +5,18 @@ extends 'Google::Client';
 
 use Carp;
 use Cpanel::JSON::XS;
+use Furl;
 
 has base_url => (
     is => 'ro',
     default => 'https://www.googleapis.com/drive/v3/files'
+);
+
+has access_token => (is => 'rw');
+
+has ua => (
+    is => 'ro',
+    default => sub { return Furl->new(); }
 );
 
 sub copy {

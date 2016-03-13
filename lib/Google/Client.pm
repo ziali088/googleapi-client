@@ -40,9 +40,15 @@ has ua => (
 
 has files => (is => 'lazy');
 sub _build_files {
-    return Google::Client::Files->new(
-        access_token => $_[0]->access_token
-    );
+    return Google::Client::Files->new(%{$_[0]->_client_args});
+}
+
+sub _client_args {
+    my $self = shift;
+    return {
+        access_token => $self->access_token,
+        ua => $self->ua
+    };
 }
 
 # Hook that checks if an access token is available before
@@ -71,7 +77,7 @@ before _request => sub {
 sub _request {
     my ($self, %req) = @_;
 
-    $req{headers} = ['Authorization', $self->access_token];
+    $req{headers} = ['Authorization', 'Bearer '.$self->access_token];
     my $response = $self->ua->request(%req);
 
     unless ( $response->is_success ) {
@@ -86,6 +92,7 @@ sub _request {
 
 sub _url {
     my ($self, $uri, $params) = @_;
+    $uri ||= '';
     my $url = URI->new($self->base_url . $uri);
     if ( $params ) {
         $url->query_form($params);
