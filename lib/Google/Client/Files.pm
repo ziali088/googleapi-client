@@ -1,7 +1,7 @@
 package Google::Client::Files;
 
 use Moo;
-extends 'Google::Client';
+with('Google::Client::Role');
 
 use Carp;
 use Cpanel::JSON::XS;
@@ -10,9 +10,6 @@ has base_url => (
     is => 'ro',
     default => 'https://www.googleapis.com/drive/v3/files'
 );
-
-has access_token => (is => 'rw');
-has ua => (is => 'ro');
 
 sub copy {
     my ($self, $id, $params, $content) = @_;

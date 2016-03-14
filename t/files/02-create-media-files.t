@@ -1,7 +1,7 @@
 use Test::Most;
 use Test::Mock::Furl;
 use Furl::Response;
-use_ok('Google::Client::Files');
+use_ok('Google::Client');
 
 ok my $client = Google::Client->new(
     access_token => 'bogey access token'
