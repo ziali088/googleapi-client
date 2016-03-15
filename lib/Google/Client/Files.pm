@@ -1,7 +1,10 @@
 package Google::Client::Files;
 
 use Moo;
-with('Google::Client::Role');
+with qw/
+Google::Client::Role::Token
+Google::Client::Role::FurlAgent
+/;
 
 use Carp;
 use Cpanel::JSON::XS;
@@ -13,7 +16,7 @@ has base_url => (
 
 sub copy {
     my ($self, $id, $params, $content) = @_;
-    Carp::confess("No fileId provided") unless ($id);
+    confess("No fileId provided") unless ($id);
 
     $content = $content ? encode_json($content) : undef;
 
@@ -29,7 +32,7 @@ sub copy {
 sub create {
     my ($self, $params, $content) = @_;
     unless ( $content && %$content ) {
-        Carp::confess("No content provided to create a media upload");
+        confess("No content provided to create a media upload");
     }
     my $url = $self->_url('/drive/v3/files', $params);
     my $json = $self->_request(
@@ -43,7 +46,7 @@ sub create {
 sub create_media {
     my ($self, $params, $content) = @_;
     unless ( $content && %$content ) {
-        Carp::confess("No content provided to create a media upload");
+        confess("No content provided to create a media upload");
     }
     my $url = $self->_url('/upload/drive/v3/files', $params);
     my $json = $self->_request(
@@ -56,7 +59,7 @@ sub create_media {
 
 sub delete {
     my ($self, $id) = @_;
-    Carp::confess("No ID provided") unless ($id);
+    confess("No ID provided") unless ($id);
     my $url = $self->_url("/$id");
     $self->_request(
         method => 'DELETE',
@@ -76,8 +79,8 @@ sub empty_trash {
 
 sub export {
     my ($self, $id, $params) = @_;
-    Carp::confess("No ID provided") unless ($id);
-    Carp::confess("mimeType is a required param to export files") unless ($params->{mimeType});
+    confess("No ID provided") unless ($id);
+    confess("mimeType is a required param to export files") unless ($params->{mimeType});
     my $url = $self->_url("/$id/export", $params);
     my $json = $self->_request(
         method => 'GET',
@@ -98,7 +101,7 @@ sub generate_ids {
 
 sub get {
     my ($self, $id, $params) = @_;
-    Carp::confess("No ID provided") unless ($id);
+    confess("No ID provided") unless ($id);
     my $url = $self->_url("/$id", $params);
     my $json = $self->_request(
         method => 'GET',
@@ -118,9 +121,9 @@ sub list {
 
 sub update_media {
     my ($self, $id, $params, $content) = @_;
-    Carp::confess("No ID provided") unless ($id);
+    confess("No ID provided") unless ($id);
     unless ( $content && %$content ) {
-        Carp::confess("No content provided to update");
+        confess("No content provided to update");
     }
     my $url = $self->_url("/upload/drive/v3/files/$id", $params);
     my $json = $self->_request(
@@ -133,9 +136,9 @@ sub update_media {
 
 sub update {
     my ($self, $id, $params, $content) = @_;
-    Carp::confess("No ID provided") unless ($id);
+    confess("No ID provided") unless ($id);
     unless ( $content && %$content ) {
-        Carp::confess("No content provided to update");
+        confess("No content provided to update");
     }
     my $url = $self->_url("/$id", $params);
     my $json = $self->_request(
@@ -148,7 +151,7 @@ sub update {
 
 sub watch {
     my ($self, $id, $params, $content) = @_;
-    Carp::confess("No ID provided") unless ($id);
+    confess("No ID provided") unless ($id);
     my $url = $self->_url("/$id/watch", $params);
     $content = $content ? encode_json($content) : undef;
     my $json = $self->_request(

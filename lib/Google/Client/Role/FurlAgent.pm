@@ -1,4 +1,4 @@
-package Google::Client::Role;
+package Google::Client::Role::FurlAgent;
 
 use strict;
 use warnings;
@@ -9,8 +9,6 @@ use Carp;
 use Cpanel::JSON::XS;
 use Furl;
 use URI;
-
-has access_token => (is => 'rw');
 
 has ua => (
     is => 'ro',
@@ -29,7 +27,7 @@ before _request => sub {
     my $self = shift;
 
     unless ( $self->access_token ) {
-        Carp::confess('access token not found or may have expired');
+        confess('access token not found or may have expired');
     }
 };
 
@@ -48,13 +46,13 @@ sub _request {
     my $response = $self->ua->request(%req);
 
     unless ( $response->is_success ) {
-        Carp::confess("Google API request failed: \n\n" . $response->as_string);
+        confess("Google API request failed: \n\n" . $response->as_string);
     }
 
     return unless ( $response->decoded_content );
 
     my $json = eval { decode_json($response->decoded_content); };
-    Carp::confess("Error decoding JSON: $@") if $@;
+    confess("Error decoding JSON: $@") if $@;
 
     return $json;
 }
