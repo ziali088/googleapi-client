@@ -62,7 +62,7 @@ Google::Client
 A compilation of Google::Client::* clients used to connect to the many resources of L<Googles REST API|https://developers.google.com/google-apps/products>.
 All such clients can be found in CPAN under the 'Google::Client' namespace (eg Google::Client::Files).
 
-You should only ever have to instantiate C<<Google::Client>>, which will give you access to all the available REST clients (pull requests welcome to add more!).
+You should only ever have to instantiate C<< Google::Client >>, which will give you access to all the available REST clients (pull requests welcome to add more!).
 
 Requests to Googles API require authentication, which can be handled via L<Google::OAuth2::Client::Simple|https://metacpan.org/pod/Google::OAuth2::Client::Simple>.
 
