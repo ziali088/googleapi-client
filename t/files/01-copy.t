@@ -3,25 +3,25 @@ use Test::Mock::Furl;
 use Furl::Response;
 use_ok('Google::Client');
 
+use Path::Tiny;
+my $content = path('./t/files/file-resource-object.json')->slurp;
+
 ok my $client = Google::Client->new(
     access_token => 'bogey access token'
 ), 'ok built client';
 
-ok my $files = $client->files, 'got files client';
-
-is $files->base_url, 'https://www.googleapis.com/drive/v3/files', 'file client has correct base_url';
-
 {
     $Mock_furl->mock(
         request => sub {
-            return Furl::Response->new(1, 200, 'OK', {'content-type' => 'application/json'}, '{}');
+            return Furl::Response->new(1, 200, 'OK', {'content-type' => 'application/json'}, $content);
         }
     );
 
     $Mock_furl_res->mock(
-        decoded_content => sub { return '{}'; }
+        decoded_content => sub { return $content; }
     );
 
-    ok my $json = $files->copy(1234, {}, {}), 'can request to copy files';
+    ok my $json = $client->files->copy(1234, {}, {}), 'can request to copy files';
+    ok $json->{id}, 'can read "id" field from response';
 }
 done_testing;

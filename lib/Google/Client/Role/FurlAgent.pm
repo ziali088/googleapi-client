@@ -67,4 +67,30 @@ sub _url {
     return $url->as_string;
 }
 
+=head1 NAME
+
+Google::Client::Role::FurlAgent
+
+=head1 DESCRIPTION
+
+A Furl useragent used to make requests to Googles REST API and do other helpful
+tasks such as building URLs and return JSON content.
+
+Used by the Google::Client::* modules
+
+=head1 AUTHOR
+
+Ali Zia, C<< <ziali088@gmail.com> >>
+
+=head1 REPOSITORY
+
+https://github.com/ziali088/googleapi-client
+
+=head1 COPYRIGHT AND LICENSE
+
+This is free software. You may use it and distribute it under the same terms as Perl itself.
+Copyright (C) 2016 - Ali Zia
+
+=cut
+
 1;

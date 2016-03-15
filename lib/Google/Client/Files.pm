@@ -162,4 +162,43 @@ sub watch {
     return $json;
 }
 
+=head1 NAME
+
+Google::Client::Files
+
+=head1 DESCRIPTION
+
+A file resource client used in L<Google::Client|https://metacpan.org/pod/Google::Client> to integrate with
+Googles Files REST API.
+
+See L<https://developers.google.com/drive/v3/reference/files> for documentation.
+
+=head2 copy(Str $id, HashRef $query_params, HashRef $post_content)
+=head2 create(HashRef $query_params, HashRef $post_content)
+=head2 create_media(HashRef $query_params, HashRef $post_content)
+=head2 delete(Str $id)
+=head2 empty_trash()
+=head2 export(Str $id, HashRef $query_params)
+=head2 generate_ids(HashRef $query_params)
+=head2 get(Str $id, HashRef $query_params)
+=head2 list(HashRef $query_params)
+=head2 update(Str $id, HashRef $query_params, HashRef $post_content)
+=head2 update_media(Str $id, HashRef $query_params, HashRef $post_content)
+=head2 watch(Str $id, HashRef $query_params, HashRef $post_content)
+
+=head1 AUTHOR
+
+Ali Zia, C<< <ziali088@gmail.com> >>
+
+=head1 REPOSITORY
+
+https://github.com/ziali088/googleapi-client
+
+=head1 COPYRIGHT AND LICENSE
+
+This is free software. You may use it and distribute it under the same terms as Perl itself.
+Copyright (C) 2016 - Ali Zia
+
+=cut
+
 1;
