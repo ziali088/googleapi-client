@@ -7,9 +7,9 @@ use Test::Most;
 use Test::Mock::Furl;
 use Furl::Response;
 
-use Google::Client;
+use Google::Client::Collection;
 
-ok my $client = Google::Client->new(access_token => 'wefjwofjwiojfoaijfoafw'), 'created client ok';
+ok my $client = Google::Client::Collection->new(access_token => 'wefjwofjwiojfoaijfoafw'), 'created client ok';
 
 {
     $Mock_furl->mock(

@@ -1,5 +1,5 @@
-package Google::Client;
-# ABSTRACT: Google Client
+package Google::Client::Collection;
+# ABSTRACT: Google Client Collection
 
 use Moo;
 
@@ -44,13 +44,13 @@ sub _client_args {
 
 =head1 NAME
 
-Google::Client
+Google::Client::Collection - Collection of modules to talk with Googles REST API
 
 =head1 SYNOPSIS
 
-    use Google::Client;
+    use Google::Client::Collection;
 
-    my $google = Google::Client->new(
+    my $google = Google::Client::Collection->new(
         access_token => 'XXXXX'
     );
 
@@ -62,7 +62,9 @@ Google::Client
 A compilation of Google::Client::* clients used to connect to the many resources of L<Googles REST API|https://developers.google.com/google-apps/products>.
 All such clients can be found in CPAN under the 'Google::Client' namespace (eg Google::Client::Files).
 
-You should only ever have to instantiate C<< Google::Client >>, which will give you access to all the available REST clients (pull requests welcome to add more!).
+Sorry for the weird collection affix, Google::Client is taken :(.
+
+You should only ever have to instantiate C<< Google::Client::Collection >>, which will give you access to all the available REST clients (pull requests welcome to add more!).
 
 Requests to Googles API require authentication, which can be handled via L<Google::OAuth2::Client::Simple|https://metacpan.org/pod/Google::OAuth2::Client::Simple>.
 

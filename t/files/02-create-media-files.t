@@ -1,12 +1,12 @@
 use Test::Most;
 use Test::Mock::Furl;
 use Furl::Response;
-use_ok('Google::Client');
+use_ok('Google::Client::Collection');
 
 use Path::Tiny;
 my $content = path('./t/files/file-resource-object.json')->slurp;
 
-ok my $client = Google::Client->new(
+ok my $client = Google::Client::Collection->new(
     access_token => 'bogey access token'
 ), 'ok built client';
 

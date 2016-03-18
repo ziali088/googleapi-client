@@ -168,7 +168,7 @@ Google::Client::Files
 
 =head1 DESCRIPTION
 
-A file resource client used in L<Google::Client|https://metacpan.org/pod/Google::Client> to integrate with
+A file resource client used in L<Google::Client::Collection|https://metacpan.org/pod/Google::Client::Collection> to integrate with
 Googles Files REST API.
 
 See L<https://developers.google.com/drive/v3/reference/files> for documentation.

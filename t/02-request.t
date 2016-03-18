@@ -7,7 +7,7 @@ use Test::Most;
 use Test::Mock::Furl;
 use Furl::Response;
 
-use Google::Client;
+use Google::Client::Collection;
 
 $Mock_furl->mock(
     request => sub {
@@ -19,7 +19,7 @@ $Mock_furl_res->mock(
     decoded_content => sub { return '{}'; }
 );
 
-ok my $client = Google::Client->new(), 'created client ok';
+ok my $client = Google::Client::Collection->new(), 'created client ok';
 
 throws_ok { $client->files->_request(
   method => 'GET',
