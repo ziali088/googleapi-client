@@ -1,7 +1,3 @@
-## files
-
-A [Google::Client::Files](https://metacpan.org/pod/Google::Client::Files) client.
-
 # NAME
 
 Google::Client
@@ -27,6 +23,10 @@ You should only ever have to instantiate `Google::Client`, which will give you a
 Requests to Googles API require authentication, which can be handled via [Google::OAuth2::Client::Simple](https://metacpan.org/pod/Google::OAuth2::Client::Simple).
 
 Also, make sure you request the right scopes from the user during authentication before using a client, as you will get unauthorized errors from Google (expected).
+
+## files
+
+A [Google::Client::Files](https://metacpan.org/pod/Google::Client::Files) client.
 
 # AUTHOR
 

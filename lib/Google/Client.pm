@@ -8,12 +8,6 @@ use Google::Client::Files;
 
 has access_token => (is => 'rw');
 
-=head2 files
-
-A L<Google::Client::Files|https://metacpan.org/pod/Google::Client::Files> client.
-
-=cut
-
 my $filesingleton = undef;
 sub files {
     my $self = shift;
@@ -73,6 +67,10 @@ You should only ever have to instantiate C<< Google::Client >>, which will give 
 Requests to Googles API require authentication, which can be handled via L<Google::OAuth2::Client::Simple|https://metacpan.org/pod/Google::OAuth2::Client::Simple>.
 
 Also, make sure you request the right scopes from the user during authentication before using a client, as you will get unauthorized errors from Google (expected).
+
+=head2 files
+
+A L<Google::Client::Files|https://metacpan.org/pod/Google::Client::Files> client.
 
 =head1 AUTHOR
 
