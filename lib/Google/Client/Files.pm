@@ -174,16 +174,27 @@ Googles Files REST API.
 See L<https://developers.google.com/drive/v3/reference/files> for documentation.
 
 =head2 copy(Str $id, HashRef $query_params, HashRef $post_content)
+
 =head2 create(HashRef $query_params, HashRef $post_content)
+
 =head2 create_media(HashRef $query_params, HashRef $post_content)
+
 =head2 delete(Str $id)
+
 =head2 empty_trash()
+
 =head2 export(Str $id, HashRef $query_params)
+
 =head2 generate_ids(HashRef $query_params)
+
 =head2 get(Str $id, HashRef $query_params)
+
 =head2 list(HashRef $query_params)
+
 =head2 update(Str $id, HashRef $query_params, HashRef $post_content)
+
 =head2 update_media(Str $id, HashRef $query_params, HashRef $post_content)
+
 =head2 watch(Str $id, HashRef $query_params, HashRef $post_content)
 
 =head1 AUTHOR
