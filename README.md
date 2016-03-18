@@ -1,3 +1,7 @@
+## files
+
+A [Google::Client::Files](https://metacpan.org/pod/Google::Client::Files) client.
+
 # NAME
 
 Google::Client

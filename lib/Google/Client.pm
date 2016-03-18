@@ -8,6 +8,12 @@ use Google::Client::Files;
 
 has access_token => (is => 'rw');
 
+=head2 files
+
+A L<Google::Client::Files|https://metacpan.org/pod/Google::Client::Files> client.
+
+=cut
+
 my $filesingleton = undef;
 sub files {
     my $self = shift;
