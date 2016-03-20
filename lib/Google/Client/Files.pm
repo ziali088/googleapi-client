@@ -203,7 +203,7 @@ Ali Zia, C<< <ziali088@gmail.com> >>
 
 =head1 REPOSITORY
 
-https://github.com/ziali088/googleapi-client
+L<https://github.com/ziali088/googleapi-client>
 
 =head1 COPYRIGHT AND LICENSE
 
