@@ -7,7 +7,11 @@ use Test::Most;
 use Test::Mock::Furl;
 use Furl::Response;
 
+use CHI;
+
 use Google::Client::Collection;
+
+my $chi = CHI->new(driver => 'Memory', global => 0);
 
 $Mock_furl->mock(
     request => sub {
@@ -19,14 +23,17 @@ $Mock_furl_res->mock(
     decoded_content => sub { return '{}'; }
 );
 
-ok my $client = Google::Client::Collection->new(), 'created client ok';
+ok my $client = Google::Client::Collection->new(
+    cache => $chi,
+    cache_key => 'test-key'
+), 'created client ok';
 
 throws_ok { $client->files->_request(
   method => 'GET',
   url => 'http://www.googleapis.com/some/test/path'
 ) } qr|access token not found or may have expired|, 'dies when no access token';
 
-ok $client->access_token('weaifgqirgjqpe'), 'test our file singleton can take on the base clients access token';
+$chi->set('test-key', 'test_access_token', 5);
 
 lives_ok { $client->files->_request(
     method => 'GET',
