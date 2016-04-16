@@ -6,40 +6,15 @@ use Moo;
 # Available Google REST APIs
 use Google::Client::Files;
 
-has access_token => (is => 'rw');
+has cache => (is => 'ro', required => 1);
+has cache_key => (is => 'rw', writer => 'set_cache_key');
 
-my $filesingleton = undef;
 sub files {
     my $self = shift;
-    $self->_refresh_singleton_attrs($filesingleton);
-    unless ( $filesingleton ) {
-        $filesingleton = Google::Client::Files->new(%{$self->_client_args});
-    }
-    return $filesingleton;
-}
-
-# * Any new client should follow the singleton pattern implemented
-# above so that things remain consistent. Thanks! *
-
-# Since we are providing a single client which consists of multiple ones,
-# we need to refresh the arguments of them (just access_token really)
-# so that the latest value is used from the Google::Client instance.
-
-sub _refresh_singleton_attrs {
-    my ($self, $singleton) = @_;
-    if ( $singleton ) {
-        if ( !$singleton->access_token ) {
-            $singleton->access_token($self->access_token);
-        }
-        return $singleton;
-    }
-}
-
-sub _client_args {
-    my $self = shift;
-    return {
-        access_token => $self->access_token,
-    };
+    return Google::Client::Files->new(
+        cache => $self->cache,
+        cache_key => $self->cache_key
+    );
 }
 
 =head1 NAME
@@ -51,8 +26,11 @@ Google::Client::Collection - Collection of modules to talk with Googles REST API
     use Google::Client::Collection;
 
     my $google = Google::Client::Collection->new(
-        access_token => 'XXXXX'
+        cache => CHI::Driver->new(), # ... or anything with a 'get($cache_key)' method
     );
+
+    # then before calling a google clients method, set the key to fetch the access_token from in the cache:
+    $google->set_cache_key('user-10-access-token');
 
     # eg: use a Google::Client::Files client:
     my $json = $google->files->list(); # lists all files available by calling: GET https://www.googleapis.com/drive/v3/files
@@ -60,15 +38,32 @@ Google::Client::Collection - Collection of modules to talk with Googles REST API
 =head1 DESCRIPTION
 
 A compilation of Google::Client::* clients used to connect to the many resources of L<Googles REST API|https://developers.google.com/google-apps/products>.
-All such clients can be found in CPAN under the 'Google::Client' namespace (eg Google::Client::Files).
-
-Sorry for the weird collection affix, Google::Client is taken :(.
+All such clients can be found in CPAN under the 'Google::Client' namespace (eg L<Google::Client::Files|https://metacpan.org/pod/Google::Client::Files>).
+Each client uses the same constructor arguments, so they can be used separately if desired.
 
 You should only ever have to instantiate C<< Google::Client::Collection >>, which will give you access to all the available REST clients (pull requests welcome to add more!).
 
 Requests to Googles API require authentication, which can be handled via L<Google::OAuth2::Client::Simple|https://metacpan.org/pod/Google::OAuth2::Client::Simple>.
 
-Also, make sure you request the right scopes from the user during authentication before using a client, as you will get unauthorized errors from Google (expected).
+Also, make sure you request the right scopes from the user during authentication before using a client, as you will get unauthorized errors from Google (intended behaviour).
+
+=head1 CONSTRUCTOR_ARGS
+
+=head2 cache
+
+Required constructor argument. The cache can be any object
+that provides a C<< get($cache_key) >> method to retrieve
+the access token. It'll be responsible for eventually
+expiring the access token so it's known when to
+request a new one.
+
+=head1 METHODS
+
+=head2 cache_key
+
+The key to lookup the access token in the cache. Should be set
+before calling any method in a Google Client. It's a good
+idea to make this unique (per user maybe?).
 
 =head2 files
 
@@ -86,6 +81,20 @@ L<https://github.com/ziali088/googleapi-client>
 
 This is free software. You may use it and distribute it under the same terms as Perl itself.
 Copyright (C) 2016 - Ali Zia
+
+=head1 TODO
+
+=over 2
+
+=item *
+
+Catch known Google API errors instead of giving that responsibility to the user of module
+
+=item *
+
+Add more clients
+
+=back
 
 =cut
 

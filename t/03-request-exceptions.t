@@ -9,7 +9,16 @@ use Furl::Response;
 
 use Google::Client::Collection;
 
-ok my $client = Google::Client::Collection->new(access_token => 'wefjwofjwiojfoaijfoafw'), 'created client ok';
+use CHI;
+
+my $chi = CHI->new(driver => 'Memory', global => 0);
+
+$chi->set('test-req', 'foobar', 5);
+
+ok my $client = Google::Client::Collection->new(
+    cache => $chi,
+    cache_key => 'test-req'
+), 'created client ok';
 
 {
     $Mock_furl->mock(

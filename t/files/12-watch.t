@@ -1,7 +1,8 @@
 use Test::Most;
 use Test::Mock::Furl;
 use Furl::Response;
-use_ok('Google::Client::Collection');
+use CHI;
+use Google::Client::Collection;
 
 my $content = '
 {
@@ -20,9 +21,12 @@ my $content = '
 }
 ';
 
+my $chi = CHI->new(driver => 'Memory', global => 0);
+$chi->set('file-client', 'test-access-token', 5);
 ok my $client = Google::Client::Collection->new(
-    access_token => 'bogey access token'
+    cache => $chi,
 ), 'ok built client';
+$client->set_cache_key('file-client');
 
 {
     $Mock_furl->mock(
