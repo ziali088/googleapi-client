@@ -20,6 +20,10 @@ $Mock_furl->mock(
 );
 
 $Mock_furl_res->mock(
+    content_type => sub { return 'application/json'; }
+);
+
+$Mock_furl_res->mock(
     decoded_content => sub { return '{}'; }
 );
 

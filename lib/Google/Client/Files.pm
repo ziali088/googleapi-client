@@ -82,11 +82,11 @@ sub export {
     confess("No ID provided") unless ($id);
     confess("mimeType is a required param to export files") unless ($params->{mimeType});
     my $url = $self->_url("/$id/export", $params);
-    my $json = $self->_request(
+    my $decoded_content = $self->_request(
         method => 'GET',
         url => $url
     );
-    return $json;
+    return $decoded_content;
 }
 
 sub generate_ids {
