@@ -47,7 +47,7 @@ Requests to Googles API require authentication, which can be handled via L<Googl
 
 Also, make sure you request the right scopes from the user during authentication before using a client, as you will get unauthorized errors from Google (intended behaviour).
 
-=head1 CONSTRUCTOR_ARGS
+=head1 CONSTRUCTOR ARGS
 
 =head2 cache
 

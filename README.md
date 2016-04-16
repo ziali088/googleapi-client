@@ -28,7 +28,7 @@ Requests to Googles API require authentication, which can be handled via [Google
 
 Also, make sure you request the right scopes from the user during authentication before using a client, as you will get unauthorized errors from Google (intended behaviour).
 
-# CONSTRUCTOR\_ARGS
+# CONSTRUCTOR ARGS
 
 ## cache
 
