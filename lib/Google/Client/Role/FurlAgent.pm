@@ -51,6 +51,11 @@ sub _request {
 
     return unless ( $response->decoded_content );
 
+    if ( $response->content_type !~ m/application\/json/ ) {
+        # not sure what it is, just return the content since it's successful
+        return $response->decoded_content;
+    }
+
     my $json = eval { decode_json($response->decoded_content); };
     confess("Error decoding JSON: $@") if $@;
 

@@ -23,23 +23,6 @@ ok my $client = Google::Client::Collection->new(
 {
     $Mock_furl->mock(
         request => sub {
-            return Furl::Response->new(1, 404, 'Not Found', {'content-type' => 'text/html'}, '<html><body>blah</body></html>');
-        }
-    );
-
-    $Mock_furl_res->mock(
-        decoded_content => sub { return '<html><body>blah</body></html>'; }
-    );
-
-    throws_ok { $client->files->_request(
-      method => 'GET',
-      url => 'http://www.googleapis.com/some/test/path'
-    ) } qr|error decoding json|i, 'dies if response is not correct json';
-}
-
-{
-    $Mock_furl->mock(
-        request => sub {
             return Furl::Response->new(1, '403', 'Forbidden', {'content-type' => 'application/json'}, '{"error": "bad token"}');
         }
     );
